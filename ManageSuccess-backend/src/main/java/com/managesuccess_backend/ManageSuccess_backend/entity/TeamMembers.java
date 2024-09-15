@@ -1,8 +1,10 @@
 package com.managesuccess_backend.ManageSuccess_backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class TeamMembers {
 
     @EmbeddedId
@@ -16,8 +18,7 @@ public class TeamMembers {
     @ManyToOne
     @MapsId("teamId")
     @JoinColumn(name = "teamId")
-    private Team team;
+    private Teams team;
 
-    // getters and setters
 }
 
