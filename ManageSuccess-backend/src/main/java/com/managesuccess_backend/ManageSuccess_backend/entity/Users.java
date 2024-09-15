@@ -1,0 +1,41 @@
+package com.managesuccess_backend.ManageSuccess_backend.entity;
+
+import com.managesuccess_backend.ManageSuccess_backend.enums.UserRole;
+import com.managesuccess_backend.ManageSuccess_backend.generators.CustomIdWithPrefixGenerator;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import java.time.LocalDateTime;
+
+@Entity
+public class Users {
+
+    @Id
+    @GenericGenerator(
+            name = "custom_id",
+            type = CustomIdWithPrefixGenerator.class,
+            parameters = {@Parameter(name = CustomIdWithPrefixGenerator.CUSTOM_ID_PREFIX_PARAM, value = CustomIdWithPrefixGenerator.CUSTOM_ID_PREFIX_USER)})
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private String username;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    private String email;
+    private String password;
+
+    @Lob
+    private byte[] profilePictureBinaryData;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "companyId", nullable = false)
+    private Company company;
+
+    // getters and setters
+}
