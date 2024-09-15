@@ -2,8 +2,10 @@ package com.managesuccess_backend.ManageSuccess_backend.entity;
 
 import com.managesuccess_backend.ManageSuccess_backend.enums.ExperienceLevel;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class UserExperiences {
 
     @EmbeddedId
@@ -22,6 +24,5 @@ public class UserExperiences {
     @JoinColumn(name = "userExperiencesOptionsId")
     private UserExperiencesOptions userExperiencesOptions;
 
-    // getters and setters
 }
 
