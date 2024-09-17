@@ -2,8 +2,10 @@ package com.managesuccess_backend.ManageSuccess_backend.mappers;
 
 import com.managesuccess_backend.ManageSuccess_backend.dtos.UserDTO;
 import com.managesuccess_backend.ManageSuccess_backend.entity.Users;
+import org.springframework.stereotype.Component;
 
 
+@Component
 public class UserMapper {
 
     // Convert from User entity to UserDTO
