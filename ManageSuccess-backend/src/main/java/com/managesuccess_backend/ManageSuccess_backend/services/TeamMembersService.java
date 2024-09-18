@@ -34,10 +34,9 @@ public class TeamMembersService {
     public TeamMembers updateTeamMember(String userId, String teamId, TeamMembers updatedTeamMember) {
         Optional<TeamMembers> existingTeamMember = teamMembersRepository.findById(new TeamMembersKey(userId, teamId));
         if (existingTeamMember.isPresent()) {
-            TeamMembers teamMemberToUpdate = existingTeamMember.get();
-            teamMemberToUpdate.setUser(updatedTeamMember.getUser());
-            teamMemberToUpdate.setTeam(updatedTeamMember.getTeam());
-            return teamMembersRepository.save(teamMemberToUpdate);
+            existingTeamMember.get().getId().setTeamId(teamId);
+            existingTeamMember.get().getId().setTeamId(userId);
+            return teamMembersRepository.save(existingTeamMember.get());
         }
         return null; // TeamMember not found
     }

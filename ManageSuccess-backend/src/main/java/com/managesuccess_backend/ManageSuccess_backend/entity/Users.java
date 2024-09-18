@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class Users {
 
     @Id
+    @GeneratedValue(generator = "custom_id")
     @GenericGenerator(
             name = "custom_id",
             type = CustomIdWithPrefixGenerator.class,
