@@ -7,7 +7,6 @@ import com.managesuccess_backend.ManageSuccess_backend.entity.UserExperiencesKey
 import com.managesuccess_backend.ManageSuccess_backend.enums.ExperienceLevel;
 import com.managesuccess_backend.ManageSuccess_backend.repositories.UserExperiencesRepository;
 import com.managesuccess_backend.ManageSuccess_backend.utils.Utilities;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -35,7 +34,7 @@ public class UserExperiencesService {
     public List<UserExperiences> getUserExperiencesByUserIdOrByExperienceId(String user, String experience){
         if(!Utilities.isNullOrEmpty(user)) return userExperiencesRepository.findByUserId(user);
         else if (!Utilities.isNullOrEmpty(experience)) return userExperiencesRepository.findByExperienceId(experience);
-        return null;
+        return this.getAllUsersExperiences();
     }
 
     // Update an userExperience
@@ -59,4 +58,7 @@ public class UserExperiencesService {
         return false;
     }
 
+    public List<UserExperiences> getAllUsersExperiences() {
+        return userExperiencesRepository.findAll();
+    }
 }
