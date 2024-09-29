@@ -1,16 +1,15 @@
 package com.managesuccess_backend.ManageSuccess_backend.entity;
 
 import com.managesuccess_backend.ManageSuccess_backend.generators.CustomIdWithPrefixGenerator;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import java.util.*;
 
-@Entity
+@Entity(name = "companies")
 @Data
-public class Companies {
+public class Company extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "custom_id")
@@ -26,4 +25,6 @@ public class Companies {
     private int employeesNo;
     private String website;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Users> users;
 }

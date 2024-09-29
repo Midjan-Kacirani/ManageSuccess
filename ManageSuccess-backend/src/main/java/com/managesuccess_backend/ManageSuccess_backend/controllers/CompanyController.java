@@ -42,7 +42,21 @@ public class CompanyController {
 
     // Update a company by ID
     @PutMapping("/{companyId}")
-    public ResponseEntity<CompanyDTO> updateCompany(@PathVariable String companyId, @RequestBody CompanyDTO companyDTO) {
+    public ResponseEntity<CompanyDTO> updateCompany(@PathVariable String companyId,
+                                                    @RequestBody(required = false) CompanyDTO companyDTO,
+                                                    @RequestParam(required = false) String name,
+                                                    @RequestParam(required = false) String description,
+                                                    @RequestParam(required = false) String type,
+                                                    @RequestParam(required = false) Integer employeesNo,
+                                                    @RequestParam(required = false) String website) {
+        if (companyDTO == null) {
+            companyDTO = new CompanyDTO();
+            companyDTO.setWebsite(website);
+            companyDTO.setName(name);
+            companyDTO.setDescription(description);
+            companyDTO.setType(type);
+            companyDTO.setEmployeesNo(employeesNo == null ? -1 : employeesNo);
+        }
         CompanyDTO updatedCompany = companyService.updateCompany(companyId, companyDTO);
         if (updatedCompany != null) {
             return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
