@@ -1,13 +1,14 @@
 package com.managesuccess_backend.ManageSuccess_backend.mappers;
 
 import com.managesuccess_backend.ManageSuccess_backend.dtos.CompanyDTO;
-import com.managesuccess_backend.ManageSuccess_backend.entity.Companies;
+import com.managesuccess_backend.ManageSuccess_backend.entity.Company;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CompanyMapper {
 
-    public CompanyDTO toDTO(Companies company) {
+    public CompanyDTO toDTO(Company company) {
+        if (company == null) return null;
         CompanyDTO companyDTO = new CompanyDTO();
         companyDTO.setCompanyId(company.getCompanyId());
         companyDTO.setName(company.getName());
@@ -18,8 +19,9 @@ public class CompanyMapper {
         return companyDTO;
     }
 
-    public Companies toEntity(CompanyDTO companyDTO) {
-        Companies company = new Companies();
+    public Company toEntity(CompanyDTO companyDTO) {
+        if (companyDTO == null) return null;
+        Company company = new Company();
         company.setCompanyId(companyDTO.getCompanyId());
         company.setName(companyDTO.getName());
         company.setDescription(companyDTO.getDescription());
