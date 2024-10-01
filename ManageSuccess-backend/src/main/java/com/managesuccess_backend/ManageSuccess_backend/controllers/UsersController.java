@@ -1,7 +1,8 @@
 package com.managesuccess_backend.ManageSuccess_backend.controllers;
 
 import com.managesuccess_backend.ManageSuccess_backend.dtos.UserDTO;
-import com.managesuccess_backend.ManageSuccess_backend.entity.Users;
+import com.managesuccess_backend.ManageSuccess_backend.enums.UserRole;
+import com.managesuccess_backend.ManageSuccess_backend.exceptions.MSException;
 import com.managesuccess_backend.ManageSuccess_backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,13 @@ public class UsersController {
 
     // Create a new user
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody Users user) {
-        UserDTO createdUser = userService.createUser(user);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO createdUser = null;
+        try {
+            createdUser = userService.createUser(userDTO);
+        } catch (MSException e) {
+            throw new RuntimeException(e);
+        }
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -45,7 +51,27 @@ public class UsersController {
 
     // Update a user by ID
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String userId, @RequestBody Users userUpdated) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String userId,
+                                              @RequestBody(required = false) UserDTO userUpdated,
+                                              @RequestParam(required = false) String firstName,
+                                              @RequestParam(required = false) String lastName,
+                                              @RequestParam(required = false) String username,
+                                              @RequestParam(required = false) UserRole userRole,
+                                              @RequestParam(required = false) String email,
+                                              @RequestParam(required = false) String password,
+                                              @RequestParam(required = false) byte[] profilePictureBinaryData,
+                                              @RequestParam(required = false) String companyId) throws MSException {
+        if(userUpdated == null){
+            userUpdated = new UserDTO();
+            userUpdated.setFirstName(firstName);
+            userUpdated.setLastName(lastName);
+            userUpdated.setUsername(username);
+            userUpdated.setUserRole(userRole);
+            userUpdated.setEmail(email);
+            userUpdated.setPassword(password);
+            userUpdated.setProfilePictureBinaryData(profilePictureBinaryData);
+            userUpdated.setCompanyId(companyId);
+        }
         UserDTO updatedUser = userService.updateUser(userId, userUpdated);
         if (updatedUser != null) {
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);

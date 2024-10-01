@@ -39,7 +39,7 @@ public class Projects implements GlobalObjectsInterface {
 
     @ManyToOne
     @JoinColumn(name = "createdBy", nullable = false)
-    private Users createdBy;
+    private User createdBy;
 
     @Override
     public String getPrimaryKey() {
