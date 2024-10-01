@@ -24,7 +24,7 @@ public class Teams {
 
     @ManyToOne
     @JoinColumn(name = "teamLeadId", nullable = false)
-    private Users teamLead;
+    private User teamLead;
 
 }
 

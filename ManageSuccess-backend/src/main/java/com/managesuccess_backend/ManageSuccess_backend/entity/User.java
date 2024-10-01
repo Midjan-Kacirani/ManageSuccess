@@ -7,11 +7,9 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import java.time.LocalDateTime;
-
-@Entity
+@Entity(name = "users")
 @Data
-public class Users {
+public class User extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "custom_id")
@@ -33,11 +31,8 @@ public class Users {
     @Lob
     private byte[] profilePictureBinaryData;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     @ManyToOne
     @JoinColumn(name = "companyId", nullable = false)
-    private Companies company;
+    private Company company;
 
 }

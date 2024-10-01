@@ -31,7 +31,7 @@ public class Comments implements GlobalObjectsInterface {
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
-    private Users user;
+    private User user;
 
     @Override
     public String getPrimaryKey() {

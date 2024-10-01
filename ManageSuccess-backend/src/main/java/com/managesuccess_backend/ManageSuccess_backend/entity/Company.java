@@ -26,5 +26,5 @@ public class Company extends BaseEntity{
     private String website;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Users> users;
+    private List<User> users;
 }

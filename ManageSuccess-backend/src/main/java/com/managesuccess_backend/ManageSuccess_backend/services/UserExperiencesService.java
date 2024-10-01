@@ -1,7 +1,5 @@
 package com.managesuccess_backend.ManageSuccess_backend.services;
 
-import com.managesuccess_backend.ManageSuccess_backend.dtos.CompanyDTO;
-import com.managesuccess_backend.ManageSuccess_backend.entity.Companies;
 import com.managesuccess_backend.ManageSuccess_backend.entity.UserExperiences;
 import com.managesuccess_backend.ManageSuccess_backend.entity.UserExperiencesKey;
 import com.managesuccess_backend.ManageSuccess_backend.enums.ExperienceLevel;

@@ -39,7 +39,7 @@ public class Tasks implements GlobalObjectsInterface {
 
     @ManyToOne
     @JoinColumn(name = "assignedTo", nullable = false)
-    private Users assignedTo;
+    private User assignedTo;
 
     @ManyToOne
     @JoinColumn(name = "projectId", nullable = false)
