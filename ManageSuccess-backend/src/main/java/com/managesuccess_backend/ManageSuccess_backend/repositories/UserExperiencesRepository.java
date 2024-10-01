@@ -12,11 +12,11 @@ import java.util.List;
 public interface UserExperiencesRepository extends JpaRepository<UserExperiences, UserExperiencesKey> {
 
     // Correcting the user parameter binding in the native query
-    @Query(value = "SELECT * FROM UserExperiences WHERE UserId = :user", nativeQuery = true)
+    @Query(value = "SELECT * FROM User_Experiences WHERE user_id = :user", nativeQuery = true)
     List<UserExperiences> findByUserId(@Param("user") String user);
 
     // Correcting the experience parameter binding in the native query
-    @Query(value = "SELECT * FROM UserExperiences WHERE UserExperiencesOptionsId = :experience", nativeQuery = true)
+    @Query(value = "SELECT * FROM User_Experiences WHERE user_experiences_options_id = :experience", nativeQuery = true)
     List<UserExperiences> findByExperienceId(@Param("experience") String experience);
 }
 
