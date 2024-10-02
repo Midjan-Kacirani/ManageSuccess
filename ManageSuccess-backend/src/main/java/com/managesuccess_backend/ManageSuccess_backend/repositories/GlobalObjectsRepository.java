@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GlobalObjectsRepository extends JpaRepository<GlobalObjects, String> {
     @Query(value = "SELECT EXISTS (SELECT 1 FROM Global_Objects WHERE object_reference_id = :referenceId)", nativeQuery = true)
-    boolean existsByReferenceId(@Param("referenceId") String referenceId);
+    Long existsByReferenceId(@Param("referenceId") String referenceId);
 
     @Query(value = "SELECT * FROM Global_Objects WHERE object_reference_id = :referenceId", nativeQuery = true)
     GlobalObjects findByReferenceId(@Param("referenceId") String referenceId);
