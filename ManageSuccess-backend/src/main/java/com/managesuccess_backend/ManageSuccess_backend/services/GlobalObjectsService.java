@@ -64,4 +64,8 @@ public class GlobalObjectsService {
             return true;
         } return false;
     }
+
+    public GlobalObjects getGlobalObjectByObjectReferenceId(String objectReference) {
+        return globalObjectsRepository.findByReferenceId(objectReference);
+    }
 }
