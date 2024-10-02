@@ -1,13 +1,18 @@
 package com.managesuccess_backend.ManageSuccess_backend.services;
 
-import com.managesuccess_backend.ManageSuccess_backend.entity.Attachments;
+import com.managesuccess_backend.ManageSuccess_backend.dtos.AttachmentDTO;
+import com.managesuccess_backend.ManageSuccess_backend.entity.Attachment;
+import com.managesuccess_backend.ManageSuccess_backend.entity.GlobalObjects;
+import com.managesuccess_backend.ManageSuccess_backend.mappers.AttachmentMapper;
 import com.managesuccess_backend.ManageSuccess_backend.repositories.AttachmentsRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AttachmentsService {
@@ -15,42 +20,61 @@ public class AttachmentsService {
     @Autowired
     private AttachmentsRepository attachmentsRepository;
 
+    @Autowired
+    private GlobalObjectsService globalObjectsService;
+
+    @Autowired
+    private AttachmentMapper attachmentMapper;
+
     // Create a new attachment
-    public Attachments createAttachment(Attachments attachment) {
-        attachment.setCreatedAt(LocalDateTime.now());
-        return attachmentsRepository.save(attachment);
+    @Transactional
+    public AttachmentDTO createAttachment(AttachmentDTO attachmentDTO) {
+        // Check if the object reference id exists
+        GlobalObjects globalObject = globalObjectsService.getGlobalObjectByObjectReferenceId(attachmentDTO.getObjectReference());
+        if (globalObject == null) {
+            throw new EntityNotFoundException("GlobalObject not found for reference: " + attachmentDTO.getObjectReference());
+        } else {
+            attachmentDTO.setGlobalObject(globalObject);
+        }
+
+        // Convert DTO to entity and save
+        Attachment savedAttachment = attachmentsRepository.save(attachmentMapper.toAttachmentEntity(attachmentDTO));
+
+        return attachmentMapper.toAttachmentDTO(savedAttachment);
     }
 
     // Get an attachment by ID
-    public Optional<Attachments> getAttachmentById(String attachmentId) {
-        return attachmentsRepository.findById(attachmentId);
+    public AttachmentDTO getAttachmentById(String attachmentId) {
+        Attachment attachment = attachmentsRepository.findById(attachmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Attachment not found for id: " + attachmentId));
+        return attachmentMapper.toAttachmentDTO(attachment);
     }
 
     // Get all attachments
-    public List<Attachments> getAllAttachments() {
-        return attachmentsRepository.findAll();
+    public List<AttachmentDTO> getAllAttachments() {
+        return attachmentsRepository.findAll().stream()
+                .map(attachmentMapper::toAttachmentDTO)
+                .collect(Collectors.toList());
     }
 
     // Update an attachment by ID
-    public Attachments updateAttachment(String attachmentId, Attachments attachmentDetails) {
-        Optional<Attachments> existingAttachment = attachmentsRepository.findById(attachmentId);
-        if (existingAttachment.isPresent()) {
-            Attachments attachmentToUpdate = existingAttachment.get();
-            attachmentToUpdate.setContent(attachmentDetails.getContent());
-            attachmentToUpdate.setContentType(attachmentDetails.getContentType());
-            attachmentToUpdate.setGlobalObject(attachmentDetails.getGlobalObject());
-            return attachmentsRepository.save(attachmentToUpdate);
-        } else {
-            return null;  // Attachment not found
-        }
+    public AttachmentDTO updateAttachment(String attachmentId, AttachmentDTO attachmentDetails) {
+        Attachment attachmentToUpdate = attachmentsRepository.findById(attachmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Attachment not found for id: " + attachmentId));
+
+        attachmentToUpdate.setContent(attachmentDetails.getContent());
+        attachmentToUpdate.setContentType(attachmentDetails.getContentType());
+
+        return attachmentMapper.toAttachmentDTO(attachmentsRepository.save(attachmentToUpdate));
     }
 
     // Delete an attachment by ID
+    @Transactional
     public boolean deleteAttachment(String attachmentId) {
-        if (attachmentsRepository.existsById(attachmentId)) {
-            attachmentsRepository.deleteById(attachmentId);
-            return true;
-        }
-        return false;
+        Attachment attachment = attachmentsRepository.findById(attachmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Attachment not found for id: " + attachmentId));
+
+        attachmentsRepository.delete(attachment);
+        return true;
     }
 }

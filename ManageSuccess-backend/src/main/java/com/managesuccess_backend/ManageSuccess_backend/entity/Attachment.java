@@ -8,9 +8,9 @@ import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "attachments")
 @Data
-public class Attachments {
+public class Attachment extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "custom_id")
@@ -24,7 +24,6 @@ public class Attachments {
     private byte[] content;
 
     private String contentType;
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "objectId", nullable = false)
