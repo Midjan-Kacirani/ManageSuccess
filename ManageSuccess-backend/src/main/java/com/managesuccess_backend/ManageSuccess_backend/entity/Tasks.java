@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Tasks implements GlobalObjectsInterface {
+public class Tasks extends BaseEntity implements GlobalObjectsInterface {
 
     @Id
     @GeneratedValue(generator = "custom_id")
@@ -35,7 +35,6 @@ public class Tasks implements GlobalObjectsInterface {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private LocalDateTime dueDate;
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "assignedTo", nullable = false)
@@ -43,7 +42,7 @@ public class Tasks implements GlobalObjectsInterface {
 
     @ManyToOne
     @JoinColumn(name = "projectId", nullable = false)
-    private Projects project;
+    private Project project;
 
     @Override
     public String getPrimaryKey() {

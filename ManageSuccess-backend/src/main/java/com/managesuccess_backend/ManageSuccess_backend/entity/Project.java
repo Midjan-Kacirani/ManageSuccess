@@ -10,9 +10,9 @@ import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "projects")
 @Data
-public class Projects implements GlobalObjectsInterface {
+public class Project extends BaseEntity implements GlobalObjectsInterface {
 
     @Id
     @GeneratedValue(generator = "custom_id")
@@ -30,8 +30,6 @@ public class Projects implements GlobalObjectsInterface {
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
