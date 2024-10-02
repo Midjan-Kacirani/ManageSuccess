@@ -7,9 +7,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 
-@Entity
+@Entity(name = "teams")
 @Data
-public class Teams {
+public class Team{
 
     @Id
     @GeneratedValue(generator = "custom_id")
