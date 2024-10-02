@@ -20,25 +20,9 @@ public class TeamMembersService {
         return teamMembersRepository.save(teamMember);
     }
 
-    // Get a TeamMember by composite key
-    public Optional<TeamMembers> getTeamMemberById(String userId, String teamId) {
-        return teamMembersRepository.findById(new TeamMembersKey(userId, teamId));
-    }
-
     // Get all TeamMembers
     public List<TeamMembers> getAllTeamMembers() {
         return teamMembersRepository.findAll();
-    }
-
-    // Update a TeamMember by composite key
-    public TeamMembers updateTeamMember(String userId, String teamId, TeamMembers updatedTeamMember) {
-        Optional<TeamMembers> existingTeamMember = teamMembersRepository.findById(new TeamMembersKey(userId, teamId));
-        if (existingTeamMember.isPresent()) {
-            existingTeamMember.get().getId().setTeamId(teamId);
-            existingTeamMember.get().getId().setTeamId(userId);
-            return teamMembersRepository.save(existingTeamMember.get());
-        }
-        return null; // TeamMember not found
     }
 
     // Delete a TeamMember by composite key

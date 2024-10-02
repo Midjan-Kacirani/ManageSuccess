@@ -24,13 +24,6 @@ public class TeamMembersController {
         return new ResponseEntity<>(createdTeamMember, HttpStatus.CREATED);
     }
 
-    // Get a TeamMember by composite key
-    @GetMapping("/{userId}/{teamId}")
-    public ResponseEntity<TeamMembers> getTeamMemberById(@PathVariable String userId, @PathVariable String teamId) {
-        Optional<TeamMembers> teamMember = teamMembersService.getTeamMemberById(userId, teamId);
-        return teamMember.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     // Get all TeamMembers
     @GetMapping
     public ResponseEntity<List<TeamMembers>> getAllTeamMembers() {
@@ -38,20 +31,9 @@ public class TeamMembersController {
         return new ResponseEntity<>(teamMembers, HttpStatus.OK);
     }
 
-    // Update a TeamMember by composite key
-    @PutMapping("/{userId}/{teamId}")
-    public ResponseEntity<TeamMembers> updateTeamMember(@PathVariable String userId, @PathVariable String teamId, @RequestBody TeamMembers updatedTeamMember) {
-        TeamMembers updated = teamMembersService.updateTeamMember(userId, teamId, updatedTeamMember);
-        if (updated != null) {
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     // Delete a TeamMember by composite key
-    @DeleteMapping("/{userId}/{teamId}")
-    public ResponseEntity<Void> deleteTeamMember(@PathVariable String userId, @PathVariable String teamId) {
+    @DeleteMapping("/{teamId}/{userId}")
+    public ResponseEntity<Void> deleteTeamMember(@PathVariable String teamId, @PathVariable String userId) {
         boolean isDeleted = teamMembersService.deleteTeamMember(userId, teamId);
         if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
