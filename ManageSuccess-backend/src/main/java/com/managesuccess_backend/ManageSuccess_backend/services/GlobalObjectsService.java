@@ -59,7 +59,7 @@ public class GlobalObjectsService {
     }
 
     public boolean deleteGlobalObjectByReferenceId(String referenceObjectId){
-        if(globalObjectsRepository.existsByReferenceId(referenceObjectId)){
+        if(globalObjectsRepository.existsByReferenceId(referenceObjectId) == 1){
             globalObjectsRepository.delete(globalObjectsRepository.findByReferenceId(referenceObjectId));
             return true;
         } return false;

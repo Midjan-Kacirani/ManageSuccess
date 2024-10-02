@@ -22,7 +22,6 @@ public class TasksService {
 
     @Transactional
     public Tasks createTask(Tasks task) {
-        task.setCreatedAt(LocalDateTime.now());
         Tasks savedTask = tasksRepository.save(task);
         globalObjectsService.createGlobalObjectFromEntity(savedTask);
         return savedTask;
