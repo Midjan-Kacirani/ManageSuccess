@@ -9,9 +9,9 @@ import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "comments")
 @Data
-public class Comments implements GlobalObjectsInterface {
+public class Comment extends BaseEntity implements GlobalObjectsInterface {
 
     @Id
     @GeneratedValue(generator = "custom_id")
@@ -22,8 +22,6 @@ public class Comments implements GlobalObjectsInterface {
     private String commentId;
 
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "objectId", nullable = false)
