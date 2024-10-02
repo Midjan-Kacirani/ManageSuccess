@@ -35,7 +35,7 @@ public class Projects implements GlobalObjectsInterface {
 
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
-    private Teams team;
+    private Team team;
 
     @ManyToOne
     @JoinColumn(name = "createdBy", nullable = false)

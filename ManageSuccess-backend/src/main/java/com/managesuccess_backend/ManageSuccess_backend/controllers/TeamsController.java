@@ -1,7 +1,8 @@
 package com.managesuccess_backend.ManageSuccess_backend.controllers;
 
-import com.managesuccess_backend.ManageSuccess_backend.entity.Teams;
-import com.managesuccess_backend.ManageSuccess_backend.services.TeamsService;
+import com.managesuccess_backend.ManageSuccess_backend.dtos.TeamDTO;
+import com.managesuccess_backend.ManageSuccess_backend.entity.Team;
+import com.managesuccess_backend.ManageSuccess_backend.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,33 +16,44 @@ import java.util.Optional;
 public class TeamsController {
 
     @Autowired
-    private TeamsService teamsService;
+    private TeamService teamsService;
 
     // Create a new team
     @PostMapping
-    public ResponseEntity<Teams> createTeam(@RequestBody Teams team) {
-        Teams createdTeam = teamsService.createTeam(team);
+    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO team) {
+        TeamDTO createdTeam = teamsService.createTeam(team);
         return new ResponseEntity<>(createdTeam, HttpStatus.CREATED);
     }
 
     // Get a team by ID
     @GetMapping("/{teamId}")
-    public ResponseEntity<Teams> getTeamById(@PathVariable String teamId) {
-        Optional<Teams> team = teamsService.getTeamById(teamId);
-        return team.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<TeamDTO> getTeamById(@PathVariable String teamId) {
+        TeamDTO team = teamsService.getTeamById(teamId);
+        if(team != null) return new ResponseEntity<>(team, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Get all teams
     @GetMapping
-    public ResponseEntity<List<Teams>> getAllTeams() {
-        List<Teams> teams = teamsService.getAllTeams();
+    public ResponseEntity<List<TeamDTO>> getAllTeams() {
+        List<TeamDTO> teams = teamsService.getAllTeams();
         return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
     // Update a team by ID
     @PutMapping("/{teamId}")
-    public ResponseEntity<Teams> updateTeam(@PathVariable String teamId, @RequestBody Teams updatedTeam) {
-        Teams updated = teamsService.updateTeam(teamId, updatedTeam);
+    public ResponseEntity<TeamDTO> updateTeam(@PathVariable String teamId,
+                                              @RequestBody(required = false) TeamDTO updatedTeam,
+                                              @RequestParam(required = false) String teamName,
+                                              @RequestParam(required = false) String teamDescription,
+                                              @RequestParam(required = false) String teamLeadId) {
+        if(updatedTeam == null){
+            updatedTeam = new TeamDTO();
+            updatedTeam.setTeamName(teamName);
+            updatedTeam.setTeamDescription(teamDescription);
+            updatedTeam.setTeamLeadId(teamLeadId);
+        }
+        TeamDTO updated = teamsService.updateTeam(teamId, updatedTeam);
         if (updated != null) {
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } else {
