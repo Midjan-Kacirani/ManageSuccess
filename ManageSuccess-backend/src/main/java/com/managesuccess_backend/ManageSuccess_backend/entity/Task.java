@@ -11,9 +11,9 @@ import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "Tasks")
 @Data
-public class Tasks extends BaseEntity implements GlobalObjectsInterface {
+public class Task extends BaseEntity implements GlobalObjectsInterface {
 
     @Id
     @GeneratedValue(generator = "custom_id")
