@@ -1,7 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar'; // For showing alerts
+
 
 @Component({
   selector: 'app-data-fetch-table',
@@ -18,12 +23,14 @@ export class DataFetchTableComponent<T> implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {}
+  constructor(private dialog: MatDialog, private http: HttpClient, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  @Output() onDelete = new EventEmitter<any>(); // Emit delete event
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -34,7 +41,4 @@ export class DataFetchTableComponent<T> implements OnInit {
     // Implement edit logic here
   }
 
-  onDelete(element: T) {
-    // Implement delete logic here
-  }
 }
