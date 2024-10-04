@@ -16,7 +16,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component'; // Import HttpClientModule
+import { MatDialogModule } from '@angular/material/dialog'; // Import MatDialogModule
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
 
 
 
@@ -32,7 +35,8 @@ const routes: Routes = [
     NavbarComponent,
     DataFetchTableComponent,
     UsersComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -49,8 +53,9 @@ const routes: Routes = [
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    AppRoutingModule
-    // Add other necessary modules
+    AppRoutingModule,
+    MatDialogModule, // Add MatDialogModule
+    MatSnackBarModule, // Add MatSnackBarModule
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],  // Optional if needed
